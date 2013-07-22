@@ -1,6 +1,7 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+INSTALL_DIR = '/Users/kimvais/git/77.fi/'
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -106,7 +107,7 @@ ROOT_URLCONF = 'shorturl.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'shorturl.wsgi.application'
 
-TEMPLATE_DIRS = ('/Users/kimvais/git/77.fi/templates',)
+TEMPLATE_DIRS = (INSTALL_DIR + 'templates',)
 
 INSTALLED_APPS = (
     # 'django.contrib.auth',
