@@ -5,20 +5,20 @@ from django.http import HttpResponseRedirect, Http404
 from django.db.models import Max
 from django.views.generic import TemplateView, View
 
-from models import Shorturl
-from URLconvert import itou, utoi
+from models import URL
+from utils import itou, utoi
 
 
 class Home(TemplateView):
     def post(self, _):
         c = super(Home, self).get_context_data()
         url = self.request.POST['url']
-        seen = Shorturl.objects.filter(url=url)
+        seen = URL.objects.filter(url=url)
         if len(seen) > 0:
             su = seen[0]
         else:
-            n = Shorturl.objects.all().aggregate(Max("id"))['id__max'] + 1
-            su = Shorturl.objects.create(id=n, url=url, clicks=0)
+            n = URL.objects.all().aggregate(Max("id"))['id__max'] + 1
+            su = URL.objects.create(id=n, url=url, clicks=0)
         pprint(su)
         c['short'] = "http://77.fi/" + itou(su.id)
         c['url'] = su.url
@@ -43,20 +43,20 @@ class Redirect(View):
     def get(self, _):
         urlid = utoi(self.short)
         try:
-            shorturl = Shorturl.objects.filter(id=urlid)[0]
+            shorturl = URL.objects.filter(id=urlid)[0]
             shorturl.clicks += 1
         except (KeyError, IndexError) as e:
             raise Http404("%s not in database" % self.short)
         return HttpResponseRedirect(shorturl.url)
 
-
-def get_empty_id():
+# Magic number for '100' is 4761
+def get_empty_id(min_limit=4760):
     _SQL = '''SELECT  MIN(id) + 1 as id
-            FROM    shorturl_shorturl mo
+            FROM    shorturl_url mo
             WHERE   NOT EXISTS
                     (
                     SELECT  NULL
-                    FROM    shorturl_shorturl mi
+                    FROM    shorturl_url mi
                     WHERE   mi.id = mo.id + 1
-        )'''
-    return Shorturl.objects.raw(_SQL)[0].pk
+        ) and mo.id > {0}'''.format(min_limit)
+    return URL.objects.raw(_SQL)[0].pk
