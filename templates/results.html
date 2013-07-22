@@ -1,0 +1,26 @@
+{% include "header.html" %}
+{% include "menu.html" %}
+<div class="post">
+<h2 class="title">
+Results
+</h2>
+<p>
+Your short url for 
+<a href="{{ url }}">{{ url }}</a>
+is
+<a href="{{ short }}">{{ short }}</a>
+</p>
+<p>
+Your original url is <b>{{ short|length }}</b> characters long so your
+savings are
+<b>{{ savings }}</b>!
+</p>
+<p>Press &lt;CTRL-C&gt; to copy the shortened url from here:
+<input type="text" id="urltxtbox" onclick="SelectAll('urltxtbox');"
+style="width:120px" value = "{{ short }}" />
+<script type="text/javascript">SelectAll('urltxtbox');</script>
+</p>
+</div>
+{% include "ads.html" %}
+{% include "footer.html" %}
+
