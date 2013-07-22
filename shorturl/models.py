@@ -17,3 +17,15 @@ class URL(models.Model):
             itou(self.id),
             self.id,
             self.url)
+
+
+# Magic number for '100' is 4761
+def get_free_id(min_limit=4760):
+    _SQL = '''SELECT  MIN(id) + 1 as id
+            FROM    shorturl_url mo
+            WHERE   id > {0} AND NOT EXISTS
+                    (
+                    SELECT  NULL
+                    FROM    shorturl_url mi
+                    WHERE   mi.id = mo.id + 1)'''.format(min_limit)
+    return URL.objects.raw(_SQL)[0].pk

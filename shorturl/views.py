@@ -49,14 +49,3 @@ class Redirect(View):
             raise Http404("%s not in database" % self.short)
         return HttpResponseRedirect(shorturl.url)
 
-# Magic number for '100' is 4761
-def get_empty_id(min_limit=4760):
-    _SQL = '''SELECT  MIN(id) + 1 as id
-            FROM    shorturl_url mo
-            WHERE   NOT EXISTS
-                    (
-                    SELECT  NULL
-                    FROM    shorturl_url mi
-                    WHERE   mi.id = mo.id + 1
-        ) and mo.id > {0}'''.format(min_limit)
-    return URL.objects.raw(_SQL)[0].pk
