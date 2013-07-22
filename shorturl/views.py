@@ -1,18 +1,18 @@
 # Create your views here.
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response
-from django.core.context_processors import csrf
-from django.db.models import Max
-from models import Shorturl
-from URLconvert import itou, utoi
 from pprint import pprint
 
+from django.http import HttpResponseRedirect, Http404
+from django.db.models import Max
+from django.views.generic import TemplateView, View
 
-def home(request):
-    c = {}
-    c.update(csrf(request))
-    if request.method == "POST":
-        url = request.POST['url']
+from models import Shorturl
+from URLconvert import itou, utoi
+
+
+class Home(TemplateView):
+    def post(self, _):
+        c = super(Home, self).get_context_data()
+        url = self.request.POST['url']
         seen = Shorturl.objects.filter(url=url)
         if len(seen) > 0:
             su = seen[0]
@@ -22,21 +22,41 @@ def home(request):
         pprint(su)
         c['short'] = "http://77.fi/" + itou(su.id)
         c['url'] = su.url
-        return render_to_response("results.html", c)
-    else:
-        return render_to_response("home.html", c)
+        return self.render_to_response(c)
+
+    def get_template_names(self):
+        if self.request.method == "POST":
+            return 'results.html'
+        else:
+            return 'home.html'
 
 
-def about(request):
-    return render_to_response("about.html")
+class About(TemplateView):
+    template_name = 'about.html'
 
 
-def redirector(request, short):
-    urlid = utoi(short)
-    try:
-        shorturl = Shorturl.objects.filter(id=urlid)[0]
-        shorturl.clicks += 1
-    except (KeyError, IndexError) as e:
-        return HttpResponse("%s not in database" % short)
-    return HttpResponseRedirect(shorturl.url)
+class Redirect(View):
+    def dispatch(self, request, *args, **kwargs):
+        self.short = kwargs.pop('short')
+        return super(Redirect, self).dispatch(request, *args, **kwargs)
 
+    def get(self, _):
+        urlid = utoi(self.short)
+        try:
+            shorturl = Shorturl.objects.filter(id=urlid)[0]
+            shorturl.clicks += 1
+        except (KeyError, IndexError) as e:
+            raise Http404("%s not in database" % self.short)
+        return HttpResponseRedirect(shorturl.url)
+
+
+def get_empty_id():
+    _SQL = '''SELECT  MIN(id) + 1 as id
+            FROM    shorturl_shorturl mo
+            WHERE   NOT EXISTS
+                    (
+                    SELECT  NULL
+                    FROM    shorturl_shorturl mi
+                    WHERE   mi.id = mo.id + 1
+        )'''
+    return Shorturl.objects.raw(_SQL)[0].pk

@@ -1,12 +1,12 @@
 from django.conf.urls import patterns, include, url
-from shorturl.views import about, home, redirector
+from shorturl.views import Home, About, Redirect
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r"^$", home, name="home"),
-    url(r"about", about, name="about"),
-    url(r"^(.*)$", redirector, name="redirector")
+    url(r"^$", Home.as_view(), name="home"),
+    url(r"about", About.as_view(), name="about"),
+    url(r"^(?P<short>.*)$", Redirect.as_view(), name="redirector")
 )

@@ -11,8 +11,8 @@ class Migration(SchemaMigration):
         # Adding model 'Shorturl'
         db.create_table(u'shorturl_shorturl', (
             ('id', self.gf('django.db.models.fields.PositiveIntegerField')(primary_key=True)),
-            ('url', self.gf('django.db.models.fields.CharField')(max_length=2048)),
-            ('clicks', self.gf('django.db.models.fields.IntegerField')()),
+            ('url', self.gf('django.db.models.fields.CharField')(max_length=2048, null=True)),
+            ('clicks', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
         db.send_create_signal(u'shorturl', ['Shorturl'])
 
@@ -25,9 +25,9 @@ class Migration(SchemaMigration):
     models = {
         u'shorturl.shorturl': {
             'Meta': {'object_name': 'Shorturl'},
-            'clicks': ('django.db.models.fields.IntegerField', [], {}),
+            'clicks': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'id': ('django.db.models.fields.PositiveIntegerField', [], {'primary_key': 'True'}),
-            'url': ('django.db.models.fields.CharField', [], {'max_length': '2048'})
+            'url': ('django.db.models.fields.CharField', [], {'max_length': '2048', 'null': 'True'})
         }
     }
 
