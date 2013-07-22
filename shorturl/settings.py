@@ -1,5 +1,3 @@
-# Django settings for django77 project.
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -13,7 +11,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2',
         # 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/kimvais/git/77.fi/short_urls.sqlite3',
+        'NAME': '/srv/db/short_urls.sqlite3',
         # Or path to database file if
         # using sqlite3.
         'USER': '',                      # Not used with sqlite3.
