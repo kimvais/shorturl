@@ -1,28 +1,26 @@
-# Create your views here.
 from pprint import pprint
 
 from django.http import HttpResponseRedirect, Http404
-from django.db.models import Max
 from django.views.generic import TemplateView, View
 
-from models import URL
+from models import URL, get_free_id
 from utils import itou, utoi
 
 
 class Home(TemplateView):
-    def post(self, _):
-        c = super(Home, self).get_context_data()
-        url = self.request.POST['url']
+    def post(self, request):
+        ctx = super(Home, self).get_context_data()
+        url = request.POST['url']
         seen = URL.objects.filter(url=url)
         if len(seen) > 0:
             su = seen[0]
         else:
-            n = URL.objects.all().aggregate(Max("id"))['id__max'] + 1
+            n = get_free_id()
             su = URL.objects.create(id=n, url=url, clicks=0)
         pprint(su)
-        c['short'] = "http://77.fi/" + itou(su.id)
-        c['url'] = su.url
-        return self.render_to_response(c)
+        ctx['short'] = "http://77.fi/" + itou(su.id)
+        ctx['url'] = su.url
+        return self.render_to_response(ctx)
 
     def get_template_names(self):
         if self.request.method == "POST":
