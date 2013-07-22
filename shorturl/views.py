@@ -41,7 +41,6 @@ class Home(TemplateView):
         else:
             n = get_free_id()
             su = URL.objects.create(id=n, url=url, clicks=0)
-        pprint(su)
         ctx['short'] = "http://77.fi/" + itou(su.id)
         ctx['url'] = su.url
         return self.render_to_response(ctx)
@@ -65,9 +64,11 @@ class Redirect(View):
     def get(self, _):
         urlid = utoi(self.short)
         try:
-            shorturl = URL.objects.filter(id=urlid)[0]
+            shorturl = URL.objects.get(id=urlid)
             shorturl.clicks += 1
-        except (KeyError, IndexError) as e:
+            shorturl.save()
+        except (URL.DoesNotExist, OverflowError):
+            # OverflowError is odd, see
             raise Http404("%s not in database" % self.short)
         return HttpResponseRedirect(shorturl.url)
 
