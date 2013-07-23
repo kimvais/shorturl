@@ -43,7 +43,7 @@ class URLShortenForm(forms.Form):
         url = urlunparse(parsed)
         logger.debug(url)
         try:
-            r = requests.get(url)
+            r = requests.get(url, timeout=3.0)
             return r.url
         except requests.RequestException:
             return url
