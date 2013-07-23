@@ -6,13 +6,19 @@
                 <form method="post" action="">
                     {% csrf_token %}
                     <fieldset>
-                        <label for="url">Shorten your URL</label>
-                        <input class="input-xlarge input-primary" type="text"
-                        id="url"
-                        name="url"
-                               size="100%"/>
-                        <button class="btn btn-primary" type="submit"
-                                >shorten</button>
+                        <label for="url">The long URL</label>
+
+                        <div class="input-append">
+
+                            <input class="input-xlarge input-primary"
+                                   type="text"
+                                   id="url"
+                                   name="url"
+                                   size="100%"/>
+                            <button class="btn btn-primary" type="submit"
+                                    >shorten
+                            </button>
+                        </div>
                     </fieldset>
                 </form>
                 <script type="text/javascript">
