@@ -1,17 +1,24 @@
-{% include "header.html" %}
-{% include "menu.html" %}
-<div class="post">
-    <form method="post" action="">
-        {% csrf_token %}
-        <fieldset>
-            <h2 class="title">Shorten your URL:</h2>
-            <input type="text" id="url" name="url" size="100%" />
-            <input class="submit" type="submit" value="shorten" />
-        </fieldset>
-    </form>
-    <script type="text/javascript">
-        document.getElementById("url").focus();
-    </script>
-</div>
-{% include "ads.html" %}
-{% include "footer.html" %}
+{% extends 'base.html' %}
+{% block beef %}
+    <div class="row">
+        <div class="row">
+            <div class="span12">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <fieldset>
+                        <label for="url">Shorten your URL</label>
+                        <input class="input-xlarge input-primary" type="text"
+                        id="url"
+                        name="url"
+                               size="100%"/>
+                        <button class="btn btn-primary" type="submit"
+                                >shorten</button>
+                    </fieldset>
+                </form>
+                <script type="text/javascript">
+                    document.getElementById("url").focus();
+                </script>
+            </div>
+        </div>
+    </div>
+{% endblock %}

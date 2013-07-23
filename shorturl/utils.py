@@ -65,3 +65,11 @@ def tobase(base, number):
     if number < 0:
         return '-' + tb(base, -1 * number)
 
+def base_template_variables(request):
+    return dict(
+        SITENAME='77.fi',
+        AUTHOR_NICK='kimvais',
+        AUTHOR_NAME="Kimmo Parviainen-Jalanko",
+        COPYRIGHTYEAR='2009-2013',
+    )
+

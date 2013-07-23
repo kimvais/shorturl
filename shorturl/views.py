@@ -20,36 +20,53 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-
-
-from pprint import pprint
+from urlparse import urlunparse, urlparse
 
 from django.http import HttpResponseRedirect, Http404
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView, View, FormView, DetailView
 
 from models import URL, get_free_id
+from shorturl import forms
 from utils import itou, utoi
 
 
-class Home(TemplateView):
-    def post(self, request):
-        ctx = super(Home, self).get_context_data()
-        url = request.POST['url']
+class Home(FormView):
+    template_name = "home.html"
+    form_class = forms.URLShortenForm
+
+    def dispatch(self, request, *args, **kwargs):
+        self.url = request.get_full_path()
+        self.pk = None
+        return super(Home, self).dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        if self.pk is not None:
+            return '/!/{0}'.format(self.short)
+        else:
+            return '/'
+
+    def form_valid(self, form):
+        url = form.cleaned_data['url']
         seen = URL.objects.filter(url=url)
         if len(seen) > 0:
             su = seen[0]
         else:
             n = get_free_id()
             su = URL.objects.create(id=n, url=url, clicks=0)
-        ctx['short'] = "http://77.fi/" + itou(su.id)
-        ctx['url'] = su.url
-        return self.render_to_response(ctx)
+        self.pk = su.id
+        self.short = itou(su.id)
+        self.url = su.url
+        return super(Home, self).form_valid(form)
 
-    def get_template_names(self):
-        if self.request.method == "POST":
-            return 'results.html'
+    def get_context_data(self, **kwargs):
+        ctx = super(Home, self).get_context_data(**kwargs)
+        hosturl = self.request.build_absolute_uri()
+        if self.pk is not None:
+            short = hosturl + self.short
         else:
-            return 'home.html'
+            short = None
+        ctx.update(dict(url=self.url, short=short))
+        return ctx
 
 
 class About(TemplateView):
@@ -72,3 +89,21 @@ class Redirect(View):
             raise Http404("%s not in database" % self.short)
         return HttpResponseRedirect(shorturl.url)
 
+
+class Results(DetailView):
+    template_name = 'results.html'
+    model = URL
+
+    def get_object(self, queryset=None):
+        return self.model.objects.get(pk=self.pk)
+
+    def dispatch(self, request, *args, **kwargs):
+        self.pk = utoi(kwargs.pop('short'))
+        return super(Results, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(Results, self).get_context_data(**kwargs)
+        abs_url = self.request.build_absolute_uri()
+        ctx['short'] = '{1}://{2}/{0}'.format(self.object.short,
+                                                   *urlparse(abs_url)[:2])
+        return ctx

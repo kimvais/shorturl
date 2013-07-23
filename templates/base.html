@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ SITENAME }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A calm, blue sky.">
+    <meta name="author" content="Thomas Park">
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"
+          rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
+          rel="stylesheet">
+
+    <link href="//k77.s3.amazonaws.com/css/default.css" rel="stylesheet">
+
+<body class="preview"
+      id="top"
+      data-spy="scroll"
+      data-target=".subnav"
+      data-offset="80">
+
+<!-- Navbar
+  ================================================== -->
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar"
+               data-toggle="collapse"
+               data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">{{ SITENAME }}</a>
+
+            <div class="nav-collapse collapse" id="main-menu">
+                <ul class="nav" id="main-menu-left">
+                    <li><a id="swatch-link" href="/">Shorten</a></li>
+                    <li><a href="/about/">About</a></li>
+                </ul>
+                <ul class="nav pull-right" id="main-menu-right">
+                    <li><a
+                            href="/login/">Login
+                        <i class="icon-user"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+
+    <!-- Masthead
+    ================================================== -->
+    <header class="jumbotron subhead" id="overview">
+        <div class="row">
+            <div class="span6">
+                <h1>{{ SITENAME }}</h1>
+
+                <p class="lead">A shorter short url.</p>
+            </div>
+            <div class="span6">
+                <!-- ADS GO HERE
+              <div class="bsa well">
+                  <div id="bsap_1277971" class="bsarocks bsap_c466df00a3cd5ee8568b5c4983b6bb19"></div>
+              </div>
+              -->
+            </div>
+        </div>
+        <div class="subnav">
+            <ul class="nav nav-pills">
+                <li><a href="https://twitter.com/{{ AUTHOR_NICK }}">
+                    Twitter</a></li>
+                <li><a href="https://github.com/{{ AUTHOR_NICK }}">
+                    GitHub</a></li>
+                <li><a href="http://stackoverflow.com/users/180174/kimvais">Stack Overflow</a></li>
+            </ul>
+        </div>
+    </header>
+    {% block beef %}
+    <!-- beef here -->
+    {% endblock %}
+    <!-- Footer
+     ================================================== -->
+    <hr>
+
+    <footer id="footer">
+        <div class="row">
+
+            <div class="span6">
+                &copy; {{ COPYRIGHTYEAR }} {{ AUTHOR_NAME }}<br/>
+                Licensed under the
+                <a href="http://opensource.org/licenses/MIT">MIT License</a>.<br/>
+                Powered by <a href="https://www.djangoproject.com/">Django</a><br />
+            </div>
+            <div class="span6">
+                Theme made by
+                <a href="http://thomaspark.me">Thomas Park</a>. Contact him
+                <a href="mailto:hello@thomaspark.me">hello@thomaspark.me</a>.<br/>
+                Theme code licensed under the
+                <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.<br/>
+                Theme based on
+                <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>
+                <a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a>. Web fonts from
+                <a href="http://www.google.com/webfonts">Google</a>. Favicon by
+                <a href="https://twitter.com/geraldhiller">Gerald Hiller</a>.</p>
+            </div>
+        </div>
+        <div class="row">
+
+            <p class="pull-right"><a href="#top">Back to top</a></p>
+        </div>
+
+    </footer>
+
+</div>
+<!-- /container -->
+
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://k77.s3.amazonaws.com/js/jquery.smooth-scroll.min.js"></script>
+<script
+        src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="http://k77.s3.amazonaws.com/js/bootswatch.js"></script>
+<script src="http://k77.s3.amazonaws.com/js/custom.js"></script>
+
+
+</body>
+</html>

@@ -1,15 +1,33 @@
-{% include "header.html" %}
-{% include "menu.html" %}
-{% include "goodies.html" %}
-{% include "ads.html" %}
+{% extends 'base.html' %}
+{% block beef %}
 
-<div class="post">
-<h2 class="title">about this site</h2>
-<p><strong>77.fi</strong> is a domain that had the sole purpose of giving me the
-shortest e-mail address possible.
- Then I realized that I can create an url-shortening service that is <b>guaranteed to beat tinyurl by at least 6 characters!</b>
-</p><p>
-In case you need a short e-mail address (and are born in 1977, perhaps) send me an e-mail and I'll set you up with a forwarding to gmail or wherenot.</p>
-</div>
+    <div class="row-fluid">
+        <div class="span6">
+            <h2 class="title">Goodies</h2>
 
-{% include "footer.html" %}
+            <p>
+                Drag this bookmarklet <a href="
+javascript:void(location.href='http://77.fi/shorten?url='+encodeURIComponent(location.href))">
+                <img src="http://static.77.fi//images/shorten.png"
+                     class="inline"
+                     alt="Shorten"/></a> to your bookmarks
+                bar for quickly create a short url from the page you are on.
+            </p>
+        </div>
+        <div class="span6">
+            <h2 class="title">About this site</h2>
+
+            <p>
+                <strong>77.fi</strong> is a domain that had the sole purpose of giving me the
+                shortest e-mail address possible.
+                Then I realized that I can create an url-shortening service that is
+                <b>guaranteed to beat tinyurl by at least 6 characters!</b>
+            </p>
+
+            <p>
+                In case you need a short e-mail address (and are born in 1977, perhaps) send me an e-mail and I'll set you up with a forwarding to gmail or wherenot.</p>
+        </div>
+    </div>
+{% endblock %}
+
+

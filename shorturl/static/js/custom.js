@@ -1,0 +1,1 @@
+$('input.input-primary').focus().select();

@@ -40,7 +40,9 @@ class URL(models.Model):
             itou(self.id),
             self.id,
             self.url)
-
+    @property
+    def short(self):
+        return itou(self.pk)
 
 # Magic number for '100' is 4761
 def get_free_id(min_limit=4760):
