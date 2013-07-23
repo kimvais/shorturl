@@ -20,8 +20,32 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+import logging
+from urlparse import urlparse, urlunparse
 from django import forms
+from django.conf import settings
+import requests
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+
+if settings.DEBUG:
+    logger.setLevel(logging.DEBUG)
 
 class URLShortenForm(forms.Form):
     url = forms.CharField(max_length=2048)
+
+    def clean_url(self):
+        raw_url = self.cleaned_data['url']
+        parsed = urlparse(raw_url)
+        if not parsed.scheme:
+            parsed = urlparse("http://" + raw_url)
+        url = urlunparse(parsed)
+        logger.debug(url)
+        try:
+            r = requests.get(url)
+            return r.url
+        except requests.RequestException:
+            return url
+
 
