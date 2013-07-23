@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2009-2013 Kimmo Parviainen-Jalanko <k@77.fi>
@@ -20,21 +21,42 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+"""
+Usage: new77 [-uh] <short> <url>
+
+    -u --update     Update an existing URL
+    -h --help       Show help
+"""
 import logging
-from django import forms
-from django.conf import settings
-from shorturl.utils import get_real_url
+import docopt
+
+from shorturl import utils, models
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
-
-if settings.DEBUG:
-    logger.setLevel(logging.DEBUG)
-
-class URLShortenForm(forms.Form):
-    url = forms.CharField(max_length=2048)
-
-    def clean_url(self):
-        return get_real_url(self.cleaned_data['url'])
+logger.setLevel(logging.DEBUG)
 
 
+def main(opts):
+    url = utils.get_real_url(opts['<url>'], timeout=5.0)
+    pk = utils.utoi(opts['<short>'])
+    update = opts.get('--update', False)
+    logger.debug(opts)
+    logger.debug(url)
+    logger.debug(pk)
+    try:
+        su = models.URL.objects.get(pk=pk)
+    except models.URL.DoesNotExist:
+        su = models.URL.objects.create(pk=pk)
+        su.url = url
+        su.save()
+    else:
+        if update:
+            su.url = url
+            su.save()
+        else:
+            raise ValueError("Short url '{0}' exists!".format(su))
+
+
+if __name__ == '__main__':
+    main(docopt.docopt(__doc__))

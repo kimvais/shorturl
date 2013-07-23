@@ -22,6 +22,8 @@
 #
 
 import string
+from urlparse import urlparse, urlunparse
+import requests
 
 CHARSET = string.digits + string.ascii_letters + "$-_.+!*"
 BASE = len(CHARSET)
@@ -73,3 +75,13 @@ def base_template_variables(request):
         COPYRIGHTYEAR='2009-2013',
     )
 
+def get_real_url(raw_url, timeout=3.0):
+    parsed = urlparse(raw_url)
+    if not parsed.scheme:
+        parsed = urlparse("http://" + raw_url)
+    url = urlunparse(parsed)
+    try:
+        r = requests.get(url, timeout=timeout)
+        return r.url
+    except requests.RequestException:
+        return url
