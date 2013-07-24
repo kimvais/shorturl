@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r"about$", views.About.as_view(), name="about"),
     url(r'log$', login_required(views.URLLog.as_view()), name="log"),
     url(r'login[/]?$', views.Login.as_view(), name="login"),
+    url(r'shorten', views.Home.as_view(), name="shorten"),
     url(r'', include('social_auth.urls')),
     url(r"^!/(?P<short>.*)$", views.Results.as_view(), name="results"),
     url(r"^(?P<short>.*)$", views.Redirect.as_view(), name="redirector")

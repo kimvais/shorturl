@@ -49,6 +49,18 @@ class Home(FormView):
         else:
             return '/'
 
+    def get(self, request, *args, **kwargs):
+        if 'url' in request.GET:
+            form = self.form_class(request.GET)
+            if form.is_valid():
+                return self.form_valid(form)
+            else:
+                return self.form_invalid(form)
+        return super(Home, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return super(Home, self).post(request, *args, **kwargs)
+
     def form_valid(self, form):
         url = form.cleaned_data['url']
         seen = URL.objects.filter(url=url)
