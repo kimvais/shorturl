@@ -3,7 +3,7 @@
     <div class="row">
         <div class="row">
             <div class="span12">
-                <form method="post" action="">
+                <form method="post" action="#">
                     {% csrf_token %}
                     <fieldset>
                         <label for="url">The long URL</label>
@@ -13,8 +13,7 @@
                             <input class="input-xlarge input-primary"
                                    type="text"
                                    id="url"
-                                   name="url"
-                                   size="100%"/>
+                                   name="url"/>
                             <button class="btn btn-primary" type="submit"
                                     >shorten
                             </button>
