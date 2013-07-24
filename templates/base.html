@@ -19,40 +19,42 @@
     <link href="//k77.s3.amazonaws.com/css/default.css" rel="stylesheet">
 
 <body
-      id="top"
-      data-spy="scroll"
-      data-target=".subnav"
-      data-offset="80">
+        id="top"
+        data-spy="scroll"
+        data-target=".subnav"
+        data-offset="80">
 
 <!-- Navbar
   ================================================== -->
 <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner" o
-    <div class="container-fluid">
-        <a class="btn btn-navbar"
-           data-toggle="collapse"
-           data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </a>
-        <a class="brand" href="/">{{ SITENAME }}</a>
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="btn btn-navbar"
+               data-toggle="collapse"
+               data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">{{ SITENAME }}</a>
 
-        <div class="nav-collapse collapse" id="main-menu">
-            <ul class="nav" id="main-menu-left">
-                <li><a id="swatch-link" href="/">Shorten</a></li>
-                <li><a href="/about/">About</a></li>
-            </ul>
-            {% comment %}
+            <div class="nav-collapse collapse" id="main-menu">
+                <ul class="nav" id="main-menu-left">
+                    <li><a id="swatch-link" href="/">Shorten</a></li>
+                    <li><a href="/about/">About</a></li>
+                </ul>
+                {% comment %}
             <ul class="nav pull-right" id="main-menu-right">
                 <li><a
                         href="/login/">Login
                     <i class="icon-user"></i></a></li>
             </ul>
             {% endcomment %}
+            </div>
         </div>
     </div>
 </div>
+
 
 <div class="container-fluid">
 
@@ -88,10 +90,10 @@
         <div class="span3" id="ads-right-skyscraper">
             <p class="pull-right">
                 <script type="text/javascript">
-                google_ad_client = "ca-pub-9832299036301632";
-                google_ad_slot = "8195509295";
-                google_ad_width = 240;
-                google_ad_height = 400;
+                    google_ad_client = "ca-pub-9832299036301632";
+                    google_ad_slot = "8195509295";
+                    google_ad_width = 240;
+                    google_ad_height = 400;
                 </script>
                 <script type="text/javascript"
                         src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
