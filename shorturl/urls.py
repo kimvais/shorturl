@@ -8,6 +8,7 @@ from shorturl import views
 urlpatterns = patterns('',
     url(r"^$", views.Home.as_view(), name="home"),
     url(r"about", views.About.as_view(), name="about"),
+    url(r'log', views.URLLog.as_view(), name="log"),
     url(r"^!/(?P<short>.*)$", views.Results.as_view(), name="results"),
     url(r"^(?P<short>.*)$", views.Redirect.as_view(), name="redirector")
 )

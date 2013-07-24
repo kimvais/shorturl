@@ -20,10 +20,10 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-from urlparse import urlunparse, urlparse
+from urlparse import urlparse
 
 from django.http import HttpResponseRedirect, Http404
-from django.views.generic import TemplateView, View, FormView, DetailView
+from django.views.generic import TemplateView, View, FormView, DetailView, ListView
 
 from models import URL, get_free_id
 from shorturl import forms
@@ -107,3 +107,9 @@ class Results(DetailView):
         ctx['short'] = '{1}://{2}/{0}'.format(self.object.short,
                                                    *urlparse(abs_url)[:2])
         return ctx
+
+
+class URLLog(ListView):
+    template_name = "log.html"
+    model = URL
+
