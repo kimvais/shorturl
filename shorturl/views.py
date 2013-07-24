@@ -26,8 +26,9 @@ from urlparse import urlparse
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic import TemplateView, View, FormView, DetailView, ListView
 
-from models import URL, get_free_id
-from shorturl import forms
+from models import URL
+from shorturl import forms, settings
+from shorturl.models import get_free_id
 from utils import itou, utoi
 
 logging.basicConfig()
@@ -76,9 +77,8 @@ class Home(FormView):
 
     def get_context_data(self, **kwargs):
         ctx = super(Home, self).get_context_data(**kwargs)
-        hosturl = self.request.build_absolute_uri()
         if self.pk is not None:
-            short = hosturl + self.short
+            short = settings.BASEURL + self.short
         else:
             short = None
         ctx.update(dict(url=self.url, short=short))
@@ -119,9 +119,10 @@ class Results(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(Results, self).get_context_data(**kwargs)
-        abs_url = self.request.build_absolute_uri()
-        ctx['short'] = '{1}://{2}/{0}'.format(self.object.short,
-                                                   *urlparse(abs_url)[:2])
+        short = '{0}{1}'.format(settings.BASEURL, self.object.short)
+        ctx['short'] = short
+        ctx['savings'] = len(self.object.url) - len(short)
+
         return ctx
 
 

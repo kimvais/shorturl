@@ -23,7 +23,7 @@
 import logging
 from django import forms
 from django.conf import settings
-from shorturl.utils import get_real_url
+from shorturl import utils, models
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -35,6 +35,12 @@ class URLShortenForm(forms.Form):
     url = forms.CharField(max_length=2048)
 
     def clean_url(self):
-        return get_real_url(self.cleaned_data['url'])
+        original = utils.get_real_url(self.cleaned_data['url'])
+        result = settings.BASEURL + utils.itou(models.get_free_id())
+        if len(original) <= len(result):
+            logger.error(original)
+            logger.error(result)
+            raise forms.ValidationError("URL is short already")
+        return original
 
 

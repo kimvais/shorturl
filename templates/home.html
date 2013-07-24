@@ -5,11 +5,16 @@
             <div class="span12">
                 <form method="post" action="#">
                     {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="alert alert-error">
+                            <a class="close">×</a>
+                            <strong>Error</strong> {{ form.errors }}.
+                        </div>
+                    {% endif %}
                     <fieldset>
                         <label for="url">The long URL</label>
 
                         <div class="input-append">
-
                             <input class="input-xlarge input-primary"
                                    type="text"
                                    id="url"

@@ -8,8 +8,8 @@ from shorturl import views
 
 urlpatterns = patterns('',
     url(r"^$", views.Home.as_view(), name="home"),
-    url(r"about$", views.About.as_view(), name="about"),
-    url(r'log$', login_required(views.URLLog.as_view()), name="log"),
+    url(r"about[/]?$", views.About.as_view(), name="about"),
+    url(r'log[/]?$', login_required(views.URLLog.as_view()), name="log"),
     url(r'login[/]?$', views.Login.as_view(), name="login"),
     url(r'shorten', views.Home.as_view(), name="shorten"),
     url(r'', include('social_auth.urls')),
