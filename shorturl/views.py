@@ -20,6 +20,7 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+import logging
 from urlparse import urlparse
 
 from django.http import HttpResponseRedirect, Http404
@@ -29,6 +30,9 @@ from models import URL, get_free_id
 from shorturl import forms
 from utils import itou, utoi
 
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 class Home(FormView):
     template_name = "home.html"
@@ -112,4 +116,9 @@ class Results(DetailView):
 class URLLog(ListView):
     template_name = "log.html"
     model = URL
+
+
+class Login(TemplateView):
+    template_name = "login_provider.html"
+
 

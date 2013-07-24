@@ -43,13 +43,8 @@
                     <li><a id="swatch-link" href="/">Shorten</a></li>
                     <li><a href="/about/">About</a></li>
                 </ul>
-                {% comment %}
             <ul class="nav pull-right" id="main-menu-right">
-                <li><a
-                        href="/login/">Login
-                    <i class="icon-user"></i></a></li>
-            </ul>
-            {% endcomment %}
+            <li> {% if user.is_authenticated %} <a href="/logout/">Logout  {{ user.email }}</a> {% else %} <a  href="/login/">Login</a></li> {% endif %} </ul>
             </div>
         </div>
     </div>
