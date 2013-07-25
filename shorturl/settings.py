@@ -2,7 +2,7 @@ from localsettings import TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, \
     SECRET_KEY, INSTALL_DIR, DEBUG, SECURE_SSL_REDIRECT, \
     SESSION_COOKIE_SECURE, SESSION_COOKIE_HTTPONLY, \
     SECURE_BROWSER_XSS_FILTER, SECURE_FRAME_DENY, \
-    SECURE_CONTENT_TYPE_NOSNIFF, BASEURL
+    SECURE_CONTENT_TYPE_NOSNIFF, BASEURL, FACEBOOK_APP_ID, FACEBOOK_API_SECRET
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -170,7 +170,7 @@ ALLOWED_HOSTS = '*'
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
-#    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.facebook.FacebookBackend',
     'social_auth.backends.google.GoogleBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
