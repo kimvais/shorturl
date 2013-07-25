@@ -22,6 +22,7 @@
 #
 import logging
 from urlparse import urlparse
+from django.contrib.auth import logout
 
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic import TemplateView, View, FormView, DetailView, ListView
@@ -139,3 +140,7 @@ class Login(TemplateView):
     template_name = "login_provider.html"
 
 
+class Logout(View):
+    def dispatch(self, request, *args, **kwargs):
+        logout(request)
+        return HttpResponseRedirect('/')
