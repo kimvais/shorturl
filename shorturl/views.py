@@ -70,6 +70,10 @@ class Home(FormView):
         else:
             n = get_free_id()
             su = URL.objects.create(id=n, url=url, clicks=0)
+            logger.debug(self.request.user)
+            if self.request.user.is_authenticated():
+                su.owner = self.request.user
+                su.save()
         self.pk = su.id
         self.short = itou(su.id)
         self.url = su.url
