@@ -20,6 +20,7 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -30,6 +31,7 @@ class URL(models.Model):
     url = models.CharField(max_length=2048, null=True)
     clicks = models.IntegerField(default=0)
     owner = models.ForeignKey(User, null=True)
+    created = models.DateTimeField(default=datetime.datetime.utcnow())
 
     def __unicode__(self):
         return "id {0} (#{1}) pointing to {2}".format(
@@ -39,6 +41,10 @@ class URL(models.Model):
     @property
     def short(self):
         return itou(self.pk)
+
+    class Meta:
+        get_latest_by = 'created'
+        ordering = ['-created', '-pk']
 
 # Magic number for '100' is 4761
 def get_free_id(min_limit=4760):
