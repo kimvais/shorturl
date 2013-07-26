@@ -164,6 +164,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
+    'social_auth.context_processors.social_auth_backends',
     "shorturl.utils.base_template_variables")
 
 ALLOWED_HOSTS = '*'

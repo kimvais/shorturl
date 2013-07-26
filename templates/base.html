@@ -45,23 +45,38 @@
                 </ul>
                 <ul class="nav pull-right" id="main-menu-right">
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'logout' %}">Logout {{ user.email }}</a></li>
-                    {% else %}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle"
-                               data-toggle="dropdown">Login <b class="caret"></b></a>
+                        {% with social_auth.associated.0 as socialuser %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    {% if socialuser.provider == "google" %}
+                                        <i class="icon-google-plus-sign"></i> {{ user.email }}
+                                    {% else %}
+                                        <i class="icon-{{ socialuser.provider }}-sign"></i> {{ user.get_full_name }}
+                                    {% endif %}
+                                    <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li>
-                                <a href="{% url "socialauth_begin" "facebook" %}"><i class="icon-fixed-width icon-facebook-sign icon-large"></i>Facebook</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url "socialauth_begin" "google" %}"><i class="icon-fixed-width icon-google-plus-sign icon-large"></i>Google</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url "socialauth_begin" "twitter" %}"><i class="icon-fixed-width icon-twitter-sign icon-large"></i>Twitter</a>
+                                    <li><a href="{% url 'logout' %}"><i class="icon-large icon-off"></i> Logout</a>
                                     </li>
                                 </ul>
                             </li>
+                        {% endwith %}
+                    {% else %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle"
+                               data-toggle="dropdown">Login
+                                <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{% url "socialauth_begin" "facebook" %}"><i class="icon-fixed-width icon-facebook-sign icon-large"></i>Facebook</a>
+                                </li>
+                                <li>
+                                    <a href="{% url "socialauth_begin" "google" %}"><i class="icon-fixed-width icon-google-plus-sign icon-large"></i>Google</a>
+                                </li>
+                                <li>
+                                    <a href="{% url "socialauth_begin" "twitter" %}"><i class="icon-fixed-width icon-twitter-sign icon-large"></i>Twitter</a>
+                                </li>
+                            </ul>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
