@@ -45,20 +45,20 @@
                 </ul>
                 <ul class="nav pull-right" id="main-menu-right">
                     {% if user.is_authenticated %}
-                        <li><a href="/logout/">Logout {{ user.email }}</a></li>
+                        <li><a href="{% url 'logout' %}">Logout {{ user.email }}</a></li>
                     {% else %}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle"
                                data-toggle="dropdown">Login <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a  href="/login/facebook/">with Facebook</a>
+                                <a href="{% url "socialauth_begin" "facebook" %}"><i class="icon-fixed-width icon-facebook-sign icon-large"></i>Facebook</a>
                                     </li>
                                     <li>
-                                        <a  href="/login/google/">with Google</a>
+                                        <a href="{% url "socialauth_begin" "google" %}"><i class="icon-fixed-width icon-google-plus-sign icon-large"></i>Google</a>
                                     </li>
                                     <li>
-                                        <a  href="/login/twitter/">with Twitter</a>
+                                        <a href="{% url "socialauth_begin" "twitter" %}"><i class="icon-fixed-width icon-twitter-sign icon-large"></i>Twitter</a>
                                     </li>
                                 </ul>
                             </li>
@@ -83,11 +83,11 @@
         </div>
         <div class="subnav">
             <ul class="nav nav-pills">
-                <li><a href="https://twitter.com/{{ AUTHOR_NICK }}">
+                <li class><a href="https://twitter.com/{{ AUTHOR_NICK }}">
                     Twitter</a></li>
-                <li><a href="https://github.com/{{ AUTHOR_NICK }}">
+                <li class><a href="https://github.com/{{ AUTHOR_NICK }}">
                     GitHub</a></li>
-                <li>
+                <li class>
                     <a href="http://stackoverflow.com/users/180174/kimvais">Stack Overflow</a>
                 </li>
             </ul>
