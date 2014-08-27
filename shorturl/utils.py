@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2009-2013 Kimmo Parviainen-Jalanko <k@77.fi>
+# Copyright © 2009-2014 Kimmo Parviainen-Jalanko <k@77.fi>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,7 +22,12 @@
 #
 
 import string
-from urlparse import urlparse, urlunparse
+
+try:
+    from urllib.parse import urlparse, urlunparse
+except ImportError:
+    from urlparse import urlparse, urlunparse
+
 import requests
 
 CHARSET = string.digits + string.ascii_letters + "$-_.+!*"
@@ -46,20 +51,20 @@ def utoi(u):
 
 
 def tobase(base, number):
-    global tb
-
-    def tb(b, n, result=[]):
+    def tb(b, n, result=None):
+        if result is None:
+            result = list()
         if n == 0:
             return result
         else:
-            return tb(b, n / b, [str(n % b)] + result)
+            return tb(b, n // b, [str(n % b)] + result)
 
     if not isinstance(base, int):
-        raise TypeError, 'invalid base for tobase()'
+        raise TypeError('invalid base for tobase()')
     if base <= 0:
-        raise ValueError, 'invalid base for tobase(): %s' % base
-    if (not isinstance(number, int)) and (not isinstance(number, long)):
-        raise TypeError, 'tobase() of non-integer'
+        raise ValueError('invalid base for tobase(): %s' % base)
+    if not isinstance(number, int):
+        raise TypeError('tobase() of non-integer')
     if number == 0:
         return '0'
     if number > 0:
@@ -67,13 +72,15 @@ def tobase(base, number):
     if number < 0:
         return '-' + tb(base, -1 * number)
 
+
 def base_template_variables(request):
     return dict(
         SITENAME='77.fi',
         AUTHOR_NICK='kimvais',
         AUTHOR_NAME="Kimmo Parviainen-Jalanko",
-        COPYRIGHTYEAR='2009-2013',
+        COPYRIGHTYEAR='2009-2014',
     )
+
 
 def get_real_url(raw_url, timeout=3.0):
     parsed = urlparse(raw_url)
