@@ -47,7 +47,7 @@ class URL(models.Model):
         ordering = ['-created', '-pk']
 
 # Magic number for '100' is 4761
-def get_free_id(min_limit=4760):
+def get_free_id(min_limit=328508):
     _SQL = '''SELECT  MIN(id) + 1 as id
             FROM    shorturl_url mo
             WHERE   id > {0} AND NOT EXISTS
